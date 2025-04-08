@@ -1,4 +1,5 @@
 import AddSubscriptionDrawer from "@/components/AddSubscriptionDrawer/AddSubscriptionDrawer";
+import EmptyState from "@/components/EmptyState/EmptyState";
 import SubscriptionsTable from "@/components/SubscriptionsTable/SubscriptionsTable";
 import { Skeleton } from "@/components/ui/skeleton";
 import { DashboardContext } from "@/contexts/DashboardContext";
@@ -26,9 +27,16 @@ export default function SubscriptionsPage() {
         />
       </div>
 
-      <div className="mt-8">
+      <div className="mt-4">
         {!userSubscriptions.isSubscriptionsLoading ? (
-          <SubscriptionsTable />
+          userSubscriptions.subscriptions.length > 0 ? (
+            <SubscriptionsTable />
+          ) : (
+            <EmptyState
+              title="No subscriptions"
+              message="You have no subscriptions"
+            />
+          )
         ) : (
           <Skeleton className=" w-full bg-gray-100 rounded-xl p-3 space-y-3">
             <Skeleton className="h-8 w-full bg-gray-200 rounded-lg"></Skeleton>
