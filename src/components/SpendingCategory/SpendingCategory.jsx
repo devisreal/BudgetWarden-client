@@ -3,14 +3,6 @@ import { Progress } from "@/components/ui/progress";
 import { DashboardContext } from "@/contexts/DashboardContext";
 import { useContext } from "react";
 
-const spendingData = [
-  { category: "Food", amount: 350, percentage: 100 },
-  { category: "Transport", amount: 120, percentage: 34 },
-  { category: "Travel", amount: 130, percentage: 37 },
-  { category: "Shopping", amount: 250, percentage: 71 },
-  { category: "Bills", amount: 320, percentage: 91 },
-];
-
 export default function SpendingByCategory() {
   const { isSpendByLoading, categorySpendBy } = useContext(DashboardContext);
 

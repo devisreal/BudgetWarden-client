@@ -54,6 +54,7 @@ export default function EditSubscriptionForm({
     register,
     handleSubmit,
     formState: { errors, isSubmitting },
+    watch,
     setValue,
     reset,
   } = useForm({
@@ -217,6 +218,7 @@ export default function EditSubscriptionForm({
       <div className="flex items-center space-x-2">
         <Checkbox
           id="is_active"
+          checked={watch("is_active")}
           onCheckedChange={(e) =>
             setValue("is_active", e, {
               shouldValidate: true,

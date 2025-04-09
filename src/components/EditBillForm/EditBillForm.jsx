@@ -49,6 +49,7 @@ export default function EditBillForm({ bill, setEditDrawerIsOpen }) {
     register,
     handleSubmit,
     formState: { errors, isSubmitting },
+    watch,
     setValue,
     reset,
   } = useForm({
@@ -175,6 +176,7 @@ export default function EditBillForm({ bill, setEditDrawerIsOpen }) {
       <div className="flex items-center space-x-2">
         <Checkbox
           id="is_paid"
+          checked={watch("is_paid")}
           onCheckedChange={(e) =>
             setValue("is_paid", e, {
               shouldValidate: true,
