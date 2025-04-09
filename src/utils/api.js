@@ -60,6 +60,19 @@ const getCategories = async () => {
   return data;
 };
 
+const getSpendByCategory = async () => {
+  const authToken = localStorage.getItem("authToken");
+  const { data } = await axios.get(
+    `${import.meta.env.VITE_API_BASE_URL}/categories/spend-by-category`,
+    {
+      headers: {
+        authorization: `Bearer ${authToken}`,
+      },
+    },
+  );
+  return data;
+};
+
 const getUserBills = async () => {
   const authToken = localStorage.getItem("authToken");
   const { data } = await axios.get(
@@ -190,6 +203,7 @@ export {
   getUserData,
   editUserProfile,
   getCategories,
+  getSpendByCategory,
   getUserBills,
   addBill,
   editBill,

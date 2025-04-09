@@ -1,4 +1,9 @@
-import { getCategories, getUserBills, getUserSubscriptions } from "@/utils/api";
+import {
+  getCategories,
+  getSpendByCategory,
+  getUserBills,
+  getUserSubscriptions,
+} from "@/utils/api";
 import { createContext, useEffect, useState } from "react";
 import { toast } from "sonner";
 
@@ -65,7 +70,9 @@ const billingCycles = [
 ];
 
 function DashboardProvider(props) {
-  const [categories, setCategories] = useState(false);
+  const [categories, setCategories] = useState(null);
+  const [categorySpendBy, setCategorySpendBy] = useState(null);
+  const [isSpendByLoading, setIsSpendByLoading] = useState(true);
 
   const [bills, setBills] = useState(null);
   const [upcomingBills, setUpcomingBills] = useState(null);
@@ -108,29 +115,23 @@ function DashboardProvider(props) {
       const response = await getUserSubscriptions();
       setIsSubscriptionsLoading(false);
       setSubscriptions(response);
-
-      // const upcomingBills = response.filter((bill) => {
-      //   if (bill.is_paid) return false;
-
-      //   const dueDate = new Date(bill.due_date);
-      //   const sevenDaysFromNow = new Date(
-      //     today.getTime() + 7 * 24 * 60 * 60 * 1000,
-      //   );
-
-      //   return dueDate >= today && dueDate <= sevenDaysFromNow;
-      // });
-
-      // setSubscriptions(response);
     } catch (error) {
       console.log(error);
       toast.error(error);
     }
   };
 
+  const getCategoryStats = async () => {
+    const data = await getSpendByCategory();
+    setCategorySpendBy(data);
+    setIsSpendByLoading(false)
+  };
+
   useEffect(() => {
     getAllCategories();
     getBills();
     getSubscriptions();
+    getCategoryStats();
   }, []);
 
   const findTotalBills = () => {
@@ -202,6 +203,9 @@ function DashboardProvider(props) {
       value={{
         categories,
         setCategories,
+        categorySpendBy,
+        isSpendByLoading,
+        setCategorySpendBy,
         userBills: {
           totalBills: findTotalBills(),
           bills: populateBills(),
