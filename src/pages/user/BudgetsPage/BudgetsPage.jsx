@@ -1,8 +1,21 @@
+import { AddBudgetForm } from "@/components/AddBudgetForm/AddBudgetForm";
+import BudgetCard from "@/components/BudgetCard/BudgetCard";
+import { DashboardSkeletonLoader } from "@/components/SkeletonLoader/SkeletonLoaders";
 import { Card, CardContent } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
+import { DashboardContext } from "@/contexts/DashboardContext";
 import { Banknote, PieChart, ShoppingBag } from "lucide-react";
+import { useContext, useState } from "react";
 
 export default function BudgetsPage() {
+  const { userBudgets } = useContext(DashboardContext);
+  const [showModal, setShowModal] = useState(false);
+
+  console.log(userBudgets.budgets);
+  if (userBudgets.isBudgetsLoading) {
+    return <DashboardSkeletonLoader />;
+  }
+
   return (
     <main className="sm:px-4 py-6">
       <section className="lg:flex lg:items-center lg:justify-between">
@@ -15,14 +28,16 @@ export default function BudgetsPage() {
           </p>
         </div>
         <div className="mt-5 flex lg:mt-0 lg:ml-4">
-          <div className="sm:ml-3"></div>
+          <div className="sm:ml-3">
+            <AddBudgetForm showModal={showModal} setShowModal={setShowModal} />
+          </div>
         </div>
       </section>
 
       {/* Budget Summary Cards */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8 mt-6">
         <Card>
-          <CardContent className="p-6 py-1">
+          <CardContent className="p-6 py-0">
             <div className="flex items-center justify-between">
               <div className="bg-emerald-100 p-3 rounded-full">
                 <Banknote className="h-6 w-6 text-emerald-600" />
@@ -40,7 +55,7 @@ export default function BudgetsPage() {
         </Card>
 
         <Card>
-          <CardContent className="p-6 py-1">
+          <CardContent className="p-6 py-0">
             <div className="flex items-center justify-between">
               <div className="bg-emerald-100 p-3 rounded-full">
                 <ShoppingBag className="h-6 w-6 text-emerald-600" />
@@ -59,7 +74,7 @@ export default function BudgetsPage() {
         </Card>
 
         <Card>
-          <CardContent className="p-6 py-1">
+          <CardContent className="p-6 py-0">
             <div className="flex items-center justify-between">
               <div className="bg-red-100 p-3 rounded-full">
                 <PieChart className="h-6 w-6 text-red-600" />
@@ -78,6 +93,16 @@ export default function BudgetsPage() {
             </div>
           </CardContent>
         </Card>
+      </div>
+
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        {userBudgets.budgets.map((budget) => (
+          <BudgetCard
+            key={budget.id}
+            budget={budget}
+            // onDelete={handleDelete}
+          />
+        ))}
       </div>
     </main>
   );
