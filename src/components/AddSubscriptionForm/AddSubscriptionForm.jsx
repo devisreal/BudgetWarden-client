@@ -62,9 +62,10 @@ export default function AddSubscriptionForm({ setAddDrawerIsOpen }) {
     mode: "onBlur",
     resolver: yupResolver(addSubscriptionFormSchema),
   });
-  
+
   const [date, setDate] = useState(new Date());
-  const { categories, userSubscriptions, billingCycles } = useContext(DashboardContext);
+  const { categories, userSubscriptions, billingCycles } =
+    useContext(DashboardContext);
 
   const handleAddSubscription = async (formValues) => {
     formValues.renewal_date = format(formValues.renewal_date, "yyyy/MM/dd");
