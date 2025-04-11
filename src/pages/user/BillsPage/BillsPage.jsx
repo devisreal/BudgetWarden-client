@@ -73,10 +73,7 @@ export default function BillsPage() {
               })}
             </ul>
           ) : (
-            <EmptyState
-              title="No upcoming bills"
-              message="You have no upcoming bills"
-            />
+            <EmptyState title="No bills" message="You have no bills" />
           )
         ) : (
           <BillsSkeletonLoader />

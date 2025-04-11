@@ -14,6 +14,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { format } from "date-fns";
 import { useContext, useState } from "react";
 import { useForm } from "react-hook-form";
+import { useOutletContext } from "react-router-dom";
 import { toast } from "sonner";
 import * as yup from "yup";
 
@@ -66,6 +67,7 @@ export default function AddSubscriptionForm({ setAddDrawerIsOpen }) {
   const [date, setDate] = useState(new Date());
   const { categories, userSubscriptions, billingCycles } =
     useContext(DashboardContext);
+  const [isLoading, userData] = useOutletContext();
 
   const handleAddSubscription = async (formValues) => {
     formValues.renewal_date = format(formValues.renewal_date, "yyyy/MM/dd");
@@ -175,7 +177,7 @@ export default function AddSubscriptionForm({ setAddDrawerIsOpen }) {
           name="cost"
           formatOptions={{
             style: "currency",
-            currency: "GBP",
+            currency: `${userData.currency}`,
             currencySign: "accounting",
           }}
           minValue={0}

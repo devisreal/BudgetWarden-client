@@ -2,9 +2,14 @@ import { Card } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import { DashboardContext } from "@/contexts/DashboardContext";
 import { useContext } from "react";
+import { useOutletContext } from "react-router-dom";
 
 export default function SpendingByCategory() {
-  const { isSpendByLoading, categorySpendBy } = useContext(DashboardContext);
+  const [isLoading, userData] = useOutletContext();
+  const { isSpendByLoading, categorySpendBy, getUserCurrency } =
+    useContext(DashboardContext);
+
+  const userCurrency = getUserCurrency(userData.currency);
 
   if (isSpendByLoading) {
     return <p>Loading...</p>;
@@ -21,7 +26,8 @@ export default function SpendingByCategory() {
       <div className="space-y-6">
         <div className="space-y-1">
           <h2 className="text-4xl font-bold text-gray-900">
-            £{totalSpending.toLocaleString()}
+            {userCurrency.symbol}
+            {totalSpending.toLocaleString()}
           </h2>
         </div>
 
@@ -31,7 +37,7 @@ export default function SpendingByCategory() {
               <div className="flex justify-between items-center">
                 <span className="text-gray-600">{item.name}</span>
                 <span className="text-gray-800 font-medium">
-                  £{item.amount}
+                {userCurrency.symbol}{item.amount}
                 </span>
               </div>
               <Progress

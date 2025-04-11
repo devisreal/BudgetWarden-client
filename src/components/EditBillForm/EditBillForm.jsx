@@ -22,6 +22,7 @@ import { Button } from "../ui/button";
 import { Checkbox } from "../ui/checkbox";
 import { Input } from "../ui/input";
 import { Label } from "../ui/label";
+import { useOutletContext } from "react-router-dom";
 
 const addBillFormSchema = yup
   .object()
@@ -43,6 +44,7 @@ const addBillFormSchema = yup
   .required();
 
 export default function EditBillForm({ bill, setEditDrawerIsOpen }) {
+  const [isLoading, userData] = useOutletContext();
   const [date, setDate] = useState(new Date(bill.due_date));
   const { categories, userBills } = useContext(DashboardContext);
   const {
@@ -138,9 +140,9 @@ export default function EditBillForm({ bill, setEditDrawerIsOpen }) {
           name="amount"
           formatOptions={{
             style: "currency",
-            currency: "GBP",
+            currency: `${userData.currency}`,
             currencySign: "accounting",
-          }}
+        }}
           minValue={0}
           step={1}
         />

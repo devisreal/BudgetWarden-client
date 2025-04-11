@@ -6,10 +6,13 @@ import { Progress } from "@/components/ui/progress";
 import { DashboardContext } from "@/contexts/DashboardContext";
 import { Banknote, PieChart, ShoppingBag } from "lucide-react";
 import { useContext, useState } from "react";
+import { useOutletContext } from "react-router-dom";
 
 export default function BudgetsPage() {
-  const { userBudgets } = useContext(DashboardContext);
+  const [isLoading, userData] = useOutletContext();
+  const { userBudgets, getUserCurrency } = useContext(DashboardContext);
   const [showModal, setShowModal] = useState(false);
+  const userCurrency = getUserCurrency(userData.currency);
 
   console.log(userBudgets.budgets);
   if (userBudgets.isBudgetsLoading) {
@@ -45,7 +48,9 @@ export default function BudgetsPage() {
               <span className="text-sm text-gray-500">Total Budget</span>
             </div>
             <div className="mt-4">
-              <div className="text-3xl font-bold">£2,820</div>
+              <div className="text-3xl font-bold">
+                {userCurrency.symbol}2,820
+              </div>
               <div className="flex items-center justify-between mt-2">
                 <span className="text-xs text-gray-500">April 2025</span>
                 <span className="text-xs text-gray-500">6 categories</span>
@@ -63,10 +68,14 @@ export default function BudgetsPage() {
               <span className="text-sm text-gray-500">Spent So Far</span>
             </div>
             <div className="mt-4">
-              <div className="text-3xl font-bold">£2,690</div>
+              <div className="text-3xl font-bold">
+                {userCurrency.symbol}2,690
+              </div>
               <div className="flex items-center justify-between mt-2">
                 <span className="text-xs text-gray-500">95% of budget</span>
-                <span className="text-xs text-emerald-600">£130 remaining</span>
+                <span className="text-xs text-emerald-600">
+                  {userCurrency.symbol}130 remaining
+                </span>
               </div>
               <Progress value={95} className="h-1.5 mt-2 bg-emerald-100" />
             </div>
@@ -85,7 +94,9 @@ export default function BudgetsPage() {
               <div className="text-3xl font-bold">1</div>
               <div className="flex items-center justify-between mt-2">
                 <span className="text-xs text-gray-500">category</span>
-                <span className="text-xs text-red-600">£50 over</span>
+                <span className="text-xs text-red-600">
+                  {userCurrency.symbol}50 over
+                </span>
               </div>
               <div className="flex items-center gap-1 mt-2 p-1 bg-red-50 rounded text-xs text-red-700">
                 <span>Entertainment</span>
