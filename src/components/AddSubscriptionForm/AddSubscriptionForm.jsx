@@ -49,6 +49,7 @@ export default function AddSubscriptionForm({ setAddDrawerIsOpen }) {
     register,
     handleSubmit,
     formState: { errors, isSubmitting },
+    watch,
     setValue,
     reset,
   } = useForm({
@@ -57,7 +58,7 @@ export default function AddSubscriptionForm({ setAddDrawerIsOpen }) {
       category_id: "",
       billing_cycle: "",
       cost: 0,
-      is_active: false,
+      is_active: true,
       renewal_date: new Date(),
     },
     mode: "onBlur",
@@ -215,6 +216,7 @@ export default function AddSubscriptionForm({ setAddDrawerIsOpen }) {
       <div className="flex items-center space-x-2">
         <Checkbox
           id="is_active"
+          checked={watch("is_active")}
           onCheckedChange={(e) =>
             setValue("is_active", e, {
               shouldValidate: true,
